@@ -251,9 +251,6 @@ class LazyFramework:
             ("search <keyword>", "Search modules"),
             ("scan", "Rescan modules"),
             ("banner reload|list", "Reload/list banner files"),
-            ("multi <payload>", "Start multi handler for payload"),
-            ("multi sessions", "Show active multi handler sessions"),
-            ("multi stop", "Stop multi handler"),
             ("cd <dir>", "Change working directory"),
             ("ls", "List current directory"),
             ("clear", "Clear terminal screen"),
@@ -458,7 +455,6 @@ class LazyFramework:
         mod = self.loaded_module.module
         meta = getattr(mod, "MODULE_INFO", {}) or {}
         name = meta.get("name", self.loaded_module.name.split('/')[-1])
-        mod_type = self._get_module_type_from_path(mod.__file__).upper()
         authors = meta.get("author", meta.get("authors", "Unknown"))
         description = meta.get("description", "No description provided.")
         license_ = meta.get("license", "Unknown")
@@ -512,12 +508,11 @@ class LazyFramework:
                     desc = info.get('description', 'No description')
                     table.add_row(name, current, required, desc)
                 console.print(table)
-            else:
+              else:
                 console.print(f"\n[bold yellow]This module has no options.[/bold yellow]")
         else:
             console.print(f"\n[bold yellow]This module has no options.[/bold yellow]")
         console.print("")
-
     
     def cmd_options(self, args):
         if not self.loaded_module:
